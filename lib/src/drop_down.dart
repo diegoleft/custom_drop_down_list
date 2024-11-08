@@ -296,6 +296,7 @@ class _MainBodyState extends State<MainBody> {
                         child: Padding(
                           padding: widget.dropDown.itemPadding ?? const EdgeInsets.fromLTRB(20, 10, 20, 0),
                           child: ListTile(
+                            contentPadding: const EdgeInsets.all(0.0),
                             onTap: () {
                               if (widget.dropDown.enableMultipleSelection) {
                                 if (!isSelected &&
