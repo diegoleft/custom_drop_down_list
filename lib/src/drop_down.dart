@@ -92,6 +92,8 @@ class DropDown {
 
   /// Internal Padding for container
   final EdgeInsetsGeometry? containerPadding;
+
+  final Widget? dividerWidget;
   
 
   DropDown({
@@ -119,6 +121,7 @@ class DropDown {
     this.dropDownBackgroundColor = Colors.transparent,
     this.bottomSheetListener,
     this.useRootNavigator = false,
+    this.dividerWidget
   });
 }
 
@@ -293,40 +296,45 @@ class _MainBodyState extends State<MainBody> {
                       bool isSelected = mainList[index].isSelected;
                       return Container(
                         color: widget.dropDown.dropDownBackgroundColor,
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(0.0),
-                          onTap: () {
-                            if (widget.dropDown.enableMultipleSelection) {
-                              if (!isSelected &&
-                                  widget.dropDown.maxSelectedItems != null) {
-                                if (mainList
-                                        .where((e) => e.isSelected)
-                                        .length >=
-                                    widget.dropDown.maxSelectedItems!) {
-                                  return;
+                        child: Column(
+                          children: [
+                            ListTile(
+                              contentPadding: const EdgeInsets.all(0.0),
+                              onTap: () {
+                                if (widget.dropDown.enableMultipleSelection) {
+                                  if (!isSelected &&
+                                      widget.dropDown.maxSelectedItems != null) {
+                                    if (mainList
+                                            .where((e) => e.isSelected)
+                                            .length >=
+                                        widget.dropDown.maxSelectedItems!) {
+                                      return;
+                                    }
+                                  }
+                                  setState(() {
+                                    mainList[index].isSelected = !isSelected;
+                                  });
+                                } else {
+                                  // ignore: deprecated_member_use_from_same_package
+                                  (widget.dropDown.selectedItems ??
+                                          widget.dropDown.onSelected)
+                                      ?.call([mainList[index]]);
+                                  _onUnFocusKeyboardAndPop();
                                 }
-                              }
-                              setState(() {
-                                mainList[index].isSelected = !isSelected;
-                              });
-                            } else {
-                              // ignore: deprecated_member_use_from_same_package
-                              (widget.dropDown.selectedItems ??
-                                      widget.dropDown.onSelected)
-                                  ?.call([mainList[index]]);
-                              _onUnFocusKeyboardAndPop();
-                            }
-                          },
-                          title:
-                              widget.dropDown.listItemBuilder?.call(index) ??
-                                  Text(
-                                    mainList[index].name,
-                                  ),
-                          trailing: widget.dropDown.enableMultipleSelection
-                              ? isSelected
-                                  ? const Icon(Icons.check_box)
-                                  : const Icon(Icons.check_box_outline_blank)
-                              : const SizedBox.shrink(),
+                              },
+                              title:
+                                  widget.dropDown.listItemBuilder?.call(index) ??
+                                      Text(
+                                        mainList[index].name,
+                                      ),
+                              trailing: widget.dropDown.enableMultipleSelection
+                                  ? isSelected
+                                      ? const Icon(Icons.check_box)
+                                      : const Icon(Icons.check_box_outline_blank)
+                                  : const SizedBox.shrink(),
+                            ),
+                            widget.dropDown.dividerWidget ?? const SizedBox.shrink()
+                          ],
                         ),
                       );
                     },
