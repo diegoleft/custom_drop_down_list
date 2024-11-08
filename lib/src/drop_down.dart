@@ -51,6 +51,8 @@ class DropDown {
   /// Required [enableMultipleSelection] to be true.
   final bool isSelectAllVisible;
 
+  final InputDecoration? searchInputDecoration;
+
   /// You can set your custom select all text button when the multiple selection and isSelectAllVisible is enabled.
   final Widget? selectAllTextButtonChild;
 
@@ -116,6 +118,7 @@ class DropDown {
     this.searchHintText = 'Search',
     this.searchFillColor = Colors.black12,
     this.searchCursorColor = Colors.black,
+    this.searchInputDecoration,
     this.isSearchVisible = true,
     this.isSelectAllVisible = true,
     this.selectAllTextButtonChild,

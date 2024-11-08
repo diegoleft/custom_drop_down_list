@@ -12,6 +12,7 @@ class AppTextField extends StatefulWidget {
   final String? searchHintText;
   final Color? searchFillColor;
   final Color? searchCursorColor;
+  final InputDecoration? searchInputDecoration;
 
   const AppTextField({
     required this.dropDown,
@@ -19,6 +20,7 @@ class AppTextField extends StatefulWidget {
     this.searchHintText,
     this.searchFillColor,
     this.searchCursorColor,
+    this.searchInputDecoration,
     super.key,
   });
 
@@ -39,7 +41,17 @@ class _AppTextFieldState extends State<AppTextField> {
         onChanged: (value) {
           widget.onTextChanged(value);
         },
-        decoration: InputDecoration(
+        decoration: widget.searchInputDecoration != null
+        ? widget.searchInputDecoration!.copyWith(
+          suffixIcon: GestureDetector(
+            onTap: onClearTap,
+            child: const Icon(
+              Icons.cancel,
+              color: Colors.grey,
+            ),
+          ),
+        ) 
+        : InputDecoration(
           filled: true,
           fillColor: widget.searchFillColor,
           contentPadding:
