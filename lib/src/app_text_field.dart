@@ -44,13 +44,16 @@ class _AppTextFieldState extends State<AppTextField> {
         },
         decoration: widget.searchInputDecoration != null
         ? widget.searchInputDecoration!.copyWith(
-          suffixIcon: GestureDetector(
-            onTap: onClearTap,
-            child: const Icon(
-              Icons.cancel,
-              color: Colors.grey,
+          suffixIcon: Visibility(
+            visible: _editingController.text.isNotEmpty,
+            child: GestureDetector(
+              onTap: onClearTap,
+              child: const Icon(
+                Icons.cancel,
+                color: Colors.grey,
+              ),
             ),
-          ),
+          )
         ) 
         : InputDecoration(
           filled: true,

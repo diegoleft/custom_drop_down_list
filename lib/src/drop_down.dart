@@ -29,6 +29,9 @@ class DropDown {
   /// This will give selection choice for single or multiple for list.
   final bool enableMultipleSelection;
 
+  /// This will give the radio button visibility.
+  final bool showRadioButton;
+
   /// This gives the bottom sheet title.
   final Widget? bottomSheetTitle;
 
@@ -97,7 +100,10 @@ class DropDown {
 
   final Widget? dividerWidget;
 
-  final TextStyle? itemTextStyle;
+  final TextStyle? titleTextStyle;
+  final TextStyle? subtitleTextStyle;
+
+  final bool showSubtitle;
   
 
   DropDown({
@@ -110,8 +116,10 @@ class DropDown {
     this.onSelected,
     this.listItemBuilder,
     this.enableMultipleSelection = false,
+    this.showRadioButton = false,
     this.bottomSheetTitle,
     this.isDismissible = true,
+    this.showSubtitle = false,
     this.submitButtonChild,
     this.clearButtonChild,
     this.searchWidget,
@@ -127,7 +135,8 @@ class DropDown {
     this.bottomSheetListener,
     this.useRootNavigator = false,
     this.dividerWidget,
-    this.itemTextStyle
+    this.titleTextStyle,
+    this.subtitleTextStyle
   });
 }
 
@@ -186,6 +195,7 @@ class _MainBodyState extends State<MainBody> {
   @override
   Widget build(BuildContext context) {
     final isSelectAll = mainList.fold(true, (p, e) => p && (e.isSelected));
+
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: widget.dropDown.bottomSheetListener,
       child: DraggableScrollableSheet(
@@ -196,11 +206,11 @@ class _MainBodyState extends State<MainBody> {
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
             color: widget.dropDown.dropDownBackgroundColor,
+            padding: widget.dropDown.containerPadding,
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: widget.dropDown.containerPadding ??
-                      const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -333,12 +343,22 @@ class _MainBodyState extends State<MainBody> {
                                   widget.dropDown.listItemBuilder?.call(index) ??
                                       Text(
                                         mainList[index].name,
-                                        style: widget.dropDown.itemTextStyle,
+                                        style: widget.dropDown.titleTextStyle,
                                       ),
+                              subtitle: widget.dropDown.showSubtitle == true && mainList[index].subtitle != null ?
+                                      Text(
+                                        mainList[index].subtitle!,
+                                        style: widget.dropDown.subtitleTextStyle,
+                                      ) 
+                                      : null,
                               trailing: widget.dropDown.enableMultipleSelection
                                   ? isSelected
                                       ? const Icon(Icons.check_box)
                                       : const Icon(Icons.check_box_outline_blank)
+                                  : widget.dropDown.enableMultipleSelection == false && widget.dropDown.showRadioButton
+                                    ? isSelected
+                                      ? const Icon(Icons.radio_button_on_outlined)
+                                      : const Icon(Icons.radio_button_off_outlined)
                                   : const SizedBox.shrink(),
                             ),
                             widget.dropDown.dividerWidget ?? const SizedBox.shrink()
@@ -360,7 +380,7 @@ class _MainBodyState extends State<MainBody> {
   _buildSearchList(String userSearchTerm) {
     final results = widget.dropDown.data
         .where((element) =>
-            element.name.toLowerCase().contains(userSearchTerm.toLowerCase()))
+            element.name.toLowerCase().contains(userSearchTerm.toLowerCase()) || (element.subtitle != null && element.subtitle!.toLowerCase().contains(userSearchTerm.toLowerCase())))
         .toList();
     if (userSearchTerm.isEmpty) {
       mainList = widget.dropDown.data;
