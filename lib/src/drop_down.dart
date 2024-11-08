@@ -94,6 +94,8 @@ class DropDown {
   final EdgeInsetsGeometry? containerPadding;
 
   final Widget? dividerWidget;
+
+  final TextStyle? itemTextStyle;
   
 
   DropDown({
@@ -121,7 +123,8 @@ class DropDown {
     this.dropDownBackgroundColor = Colors.transparent,
     this.bottomSheetListener,
     this.useRootNavigator = false,
-    this.dividerWidget
+    this.dividerWidget,
+    this.itemTextStyle
   });
 }
 
@@ -326,6 +329,7 @@ class _MainBodyState extends State<MainBody> {
                                   widget.dropDown.listItemBuilder?.call(index) ??
                                       Text(
                                         mainList[index].name,
+                                        style: widget.dropDown.itemTextStyle,
                                       ),
                               trailing: widget.dropDown.enableMultipleSelection
                                   ? isSelected
