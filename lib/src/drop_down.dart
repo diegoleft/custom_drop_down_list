@@ -288,6 +288,7 @@ class _MainBodyState extends State<MainBody> {
                   child: ListView.builder(
                     controller: scrollController,
                     itemCount: mainList.length,
+                    padding: const EdgeInsets.all(0.0),
                     itemBuilder: (context, index) {
                       bool isSelected = mainList[index].isSelected;
                       return Container(
