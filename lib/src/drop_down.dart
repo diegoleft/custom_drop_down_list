@@ -86,12 +86,16 @@ class DropDown {
 
   /// Number of items that can be selected when multiple selection is enabled.
   final int? maxSelectedItems;
+  
+  /// Number of items that can be selected when multiple selection is enabled. dgeInsets.fromLTRB(20, 10, 20, 0)
+  final EdgeInsetsGeometry? itemPadding;
 
   DropDown({
     Key? key,
     required this.data,
     this.maxSelectedItems,
     this.selectedItems,
+    this.itemPadding,
     this.onSelected,
     this.listItemBuilder,
     this.enableMultipleSelection = false,
@@ -284,7 +288,7 @@ class _MainBodyState extends State<MainBody> {
                       return Container(
                         color: widget.dropDown.dropDownBackgroundColor,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                          padding: widget.dropDown.itemPadding ?? const EdgeInsets.fromLTRB(20, 10, 20, 0),
                           child: ListTile(
                             onTap: () {
                               if (widget.dropDown.enableMultipleSelection) {
