@@ -266,6 +266,7 @@ class _MainBodyState extends State<MainBody> {
                         searchHintText: widget.dropDown.searchHintText,
                         searchFillColor: widget.dropDown.searchFillColor,
                         searchCursorColor: widget.dropDown.searchCursorColor,
+                        searchInputDecoration: widget.dropDown.searchInputDecoration,
                       ),
                 ),
 
