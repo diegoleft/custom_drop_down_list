@@ -87,8 +87,12 @@ class DropDown {
   /// Number of items that can be selected when multiple selection is enabled.
   final int? maxSelectedItems;
   
-  /// Number of items that can be selected when multiple selection is enabled. dgeInsets.fromLTRB(20, 10, 20, 0)
+  /// Internal Padding for item List
   final EdgeInsetsGeometry? itemPadding;
+
+  /// Internal Padding for container
+  final EdgeInsetsGeometry? containerPadding;
+  
 
   DropDown({
     Key? key,
@@ -96,6 +100,7 @@ class DropDown {
     this.maxSelectedItems,
     this.selectedItems,
     this.itemPadding,
+    this.containerPadding,
     this.onSelected,
     this.listItemBuilder,
     this.enableMultipleSelection = false,
@@ -185,7 +190,7 @@ class _MainBodyState extends State<MainBody> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding:
+                  padding: widget.dropDown.containerPadding ??
                       const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
