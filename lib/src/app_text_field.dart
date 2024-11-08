@@ -33,6 +33,8 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
+
+    print("widget.searchInputDecoration ${widget.searchInputDecoration}");
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: TextFormField(
