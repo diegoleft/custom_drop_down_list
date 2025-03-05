@@ -163,7 +163,10 @@ class DropDownState {
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return MainBody(dropDown: dropDown);
+            return Padding(
+              padding: MediaQuery.of(context).viewInsets, 
+              child: MainBody(dropDown: dropDown)
+            );
           },
         );
       },
